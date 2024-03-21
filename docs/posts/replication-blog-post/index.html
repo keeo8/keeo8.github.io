@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Manuel Fors">
-<meta name="dcterms.date" content="2024-03-01">
+<meta name="dcterms.date" content="2024-03-21">
 <meta name="description" content="This focuses on a study done on medical algorithms that assign scores to individuals and contains a racial bias.">
 
 <title>My Awesome CSCI 0451 Blog - Replication Study Blog</title>
@@ -222,7 +222,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 1, 2024</p>
+        <p class="date">March 21, 2024</p>
       </div>
     </div>
     
@@ -336,7 +336,7 @@ window.Quarto = {
 <h1>Part D: Modeling Cost Disparity!</h1>
 <p>Before we model, we weant to do a bit of data preparation</p>
 <ol type="1">
-<li>Lets Determine the percentage of patients with fewer than 5 chronic conditions</li>
+<li>Lets determine the percentage of patients with fewer than 5 chronic conditions</li>
 </ol>
 <div id="cell-11" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>below_5 <span class="op">=</span> np.count_nonzero(df[<span class="st">'gagne_sum_t'</span>]<span class="op">&lt;=</span><span class="dv">5</span>)</span>
