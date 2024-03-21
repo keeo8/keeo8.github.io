@@ -4,42 +4,21 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this blog"
+    "text": "This blog is to showcase the work I do in class as well as my thought process behind coding."
   },
   {
-    "objectID": "example_posts/new-test-post/index.html",
-    "href": "example_posts/new-test-post/index.html",
-    "title": "Second Post",
+    "objectID": "about.html#about-this-blog",
+    "href": "about.html#about-this-blog",
+    "title": "About",
     "section": "",
-    "text": "from source import Perceptron\np = Perceptron()\n\nI did it!!\nnot implemented\nThis is an example of the blog posts that you’ll submit as your primary form of learning demonstration in CSCI 0451. I created this post by modifying the file posts/example-blog-post/index.ipynb in VSCode. You can also use JupyterLab for this editing if you prefer. Finally, it is possible to write blog posts without using notebooks by writing .qmd files, as illustrated here."
+    "text": "This blog is to showcase the work I do in class as well as my thought process behind coding."
   },
   {
-    "objectID": "example_posts/new-test-post/index.html#math",
-    "href": "example_posts/new-test-post/index.html#math",
-    "title": "Second Post",
-    "section": "Math",
-    "text": "Math\nIn addition to regular text using the Markdown specification, you can also write mathematics, enclosed between dollar signs. The syntax for writing math is very similar to the syntax used in the \\(\\LaTeX\\) markup language. For example, $f(x) \\approx y$ renders to \\(f(x) \\approx y\\). To place complex mathematical expressions on their own lines, use double dollar signs. For example, the expression\n$$\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2$$\nrenders to:\n\\[\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2\\;.\\]\nBehind the scenes, math is powered by the MathJax engine. For more on how to write math, check this handy tutorial and quick reference."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "My Awesome CSCI 0451 Blog",
-    "section": "",
-    "text": "Penguin Blog\n\n\n\n\n\n\ncsci415\n\n\n\nPenguin classifier\n\n\n\n\n\nFeb 16, 2024\n\n\nManuel Fors\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "example_posts/example-blog-post/index.html",
-    "href": "example_posts/example-blog-post/index.html",
-    "title": "Hello Blog",
-    "section": "",
-    "text": "from source import Perceptron\np = Perceptron()\n\nI did it!!\nnot implemented\nThis is an example of the blog posts that you’ll submit as your primary form of learning demonstration in CSCI 0451. I created this post by modifying the file posts/example-blog-post/index.ipynb in VSCode. You can also use JupyterLab for this editing if you prefer. Finally, it is possible to write blog posts without using notebooks by writing .qmd files, as illustrated here."
-  },
-  {
-    "objectID": "example_posts/example-blog-post/index.html#math",
-    "href": "example_posts/example-blog-post/index.html#math",
-    "title": "Hello Blog",
-    "section": "Math",
-    "text": "Math\nIn addition to regular text using the Markdown specification, you can also write mathematics, enclosed between dollar signs. The syntax for writing math is very similar to the syntax used in the \\(\\LaTeX\\) markup language. For example, $f(x) \\approx y$ renders to \\(f(x) \\approx y\\). To place complex mathematical expressions on their own lines, use double dollar signs. For example, the expression\n$$\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2$$\nrenders to:\n\\[\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2\\;.\\]\nBehind the scenes, math is powered by the MathJax engine. For more on how to write math, check this handy tutorial and quick reference."
+    "objectID": "about.html#about-me",
+    "href": "about.html#about-me",
+    "title": "About",
+    "section": "About me",
+    "text": "About me\nI am a senior Computer Science major at Middlebury College. I have experience in Python, C, OCaml, and Java, as well as the domain-specific language “NetLogo”. I also like linguistics and art! Enjoy reading my blog and thank you for stopping by!"
   },
   {
     "objectID": "posts/penguins-blog-post/index.html",
@@ -89,5 +68,54 @@
     "title": "Penguin Blog",
     "section": "We did it!",
     "text": "We did it!\n\nNext Steps\nThis would involve testing other models such as Decision Classfier Trees, and we could run the cross validation step within our brute-force attempt instead of after."
+  },
+  {
+    "objectID": "example_posts/example-blog-post/index.html",
+    "href": "example_posts/example-blog-post/index.html",
+    "title": "Hello Blog",
+    "section": "",
+    "text": "from source import Perceptron\np = Perceptron()\n\nI did it!!\nnot implemented\nThis is an example of the blog posts that you’ll submit as your primary form of learning demonstration in CSCI 0451. I created this post by modifying the file posts/example-blog-post/index.ipynb in VSCode. You can also use JupyterLab for this editing if you prefer. Finally, it is possible to write blog posts without using notebooks by writing .qmd files, as illustrated here."
+  },
+  {
+    "objectID": "example_posts/example-blog-post/index.html#math",
+    "href": "example_posts/example-blog-post/index.html#math",
+    "title": "Hello Blog",
+    "section": "Math",
+    "text": "Math\nIn addition to regular text using the Markdown specification, you can also write mathematics, enclosed between dollar signs. The syntax for writing math is very similar to the syntax used in the \\(\\LaTeX\\) markup language. For example, $f(x) \\approx y$ renders to \\(f(x) \\approx y\\). To place complex mathematical expressions on their own lines, use double dollar signs. For example, the expression\n$$\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2$$\nrenders to:\n\\[\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2\\;.\\]\nBehind the scenes, math is powered by the MathJax engine. For more on how to write math, check this handy tutorial and quick reference."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Awesome CSCI 0451 Blog",
+    "section": "",
+    "text": "Replication Study Blog\n\n\n\n\n\n\ncsci415\n\n\n\nThis focuses on a study done on medical algorithms that assign scores to individuals and contains a racial bias.\n\n\n\n\n\nMar 1, 2024\n\n\nManuel Fors\n\n\n\n\n\n\n\n\n\n\n\n\nPenguin Blog\n\n\n\n\n\n\ncsci415\n\n\n\nPenguin classifier\n\n\n\n\n\nFeb 16, 2024\n\n\nManuel Fors\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "example_posts/new-test-post/index.html",
+    "href": "example_posts/new-test-post/index.html",
+    "title": "Second Post",
+    "section": "",
+    "text": "from source import Perceptron\np = Perceptron()\n\nI did it!!\nnot implemented\nThis is an example of the blog posts that you’ll submit as your primary form of learning demonstration in CSCI 0451. I created this post by modifying the file posts/example-blog-post/index.ipynb in VSCode. You can also use JupyterLab for this editing if you prefer. Finally, it is possible to write blog posts without using notebooks by writing .qmd files, as illustrated here."
+  },
+  {
+    "objectID": "example_posts/new-test-post/index.html#math",
+    "href": "example_posts/new-test-post/index.html#math",
+    "title": "Second Post",
+    "section": "Math",
+    "text": "Math\nIn addition to regular text using the Markdown specification, you can also write mathematics, enclosed between dollar signs. The syntax for writing math is very similar to the syntax used in the \\(\\LaTeX\\) markup language. For example, $f(x) \\approx y$ renders to \\(f(x) \\approx y\\). To place complex mathematical expressions on their own lines, use double dollar signs. For example, the expression\n$$\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2$$\nrenders to:\n\\[\\mathcal{L}(a, b) = \\sum_{i = 1}^n (ax_i + b - y_i)^2\\;.\\]\nBehind the scenes, math is powered by the MathJax engine. For more on how to write math, check this handy tutorial and quick reference."
+  },
+  {
+    "objectID": "posts/replication-blog-post/index.html#modelingggggg",
+    "href": "posts/replication-blog-post/index.html#modelingggggg",
+    "title": "Replication Study Blog",
+    "section": "MODELINGGGGGG",
+    "text": "MODELINGGGGGG\nHere we go! Its important to know what we are modeling here. We are going to attempt to fit a linear regression model with our features. Our model can be described mathematically by this description \\[ \\text{log cost} \\approx w_b \\times \\text{(patient is Black)} \\sum_{i+0}^kw_k \\times \\text{(gagne sum)}^k\\]\nWith our model, we are going to estimate what \\(w_b\\) is, which is how much cost Black Patients incur as a percentage of White Patients. However, we do not know how many polynomial featuers we should use! Don’t worry, we have a plan!\nWe are going to use a function called add_polynomial_featuers to keep adding new columns in our dataframe until we find a successful number of polynomial features.\n\ndef add_polynomial_features(X, degree):\n  X_ = X.copy()\n  for j in range(1, degree):\n    X_[f\"poly_{j}\"] = X_[\"gagne_sum_t\"]**j\n\n  return X_\n\nHere is the meat of our code where we are going to fit our model and cross-validate our scores. We are also going to test all values from 1-10 as dictated by our “degrees” variable\n\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.linear_model import LinearRegression\nratings = {}\ndegrees = 10\nLR = LinearRegression(fit_intercept = True)\n#run our polynomial features\nnew_X = add_polynomial_features(non_zero_costs, degrees)\nfor i in range(1, degrees):\n    \n    predictor_variables=[\"is_black\", f\"poly_{i}\", \"gagne_sum_t\"]\n    LR.fit(new_X[predictor_variables], new_X[\"log_costs\"])\n    cv_scores_LR = cross_val_score(LR, new_X[predictor_variables], new_X[target_variable], cv=3)\n    estimated_score = cv_scores_LR.mean()\n    ratings[i] = estimated_score\n\nHere we are going to find our top result, which comes out to be 2. Then we create a new model basedon that value and we fit it.\n\n#Here we can take a look at the \n\ntop_result = max(ratings, key=ratings.get)\nnew_predictor_values = [\"is_black\", f\"poly_{top_result}\", \"gagne_sum_t\"]\n#Following our top result, lets now make a model using this\nLR = LinearRegression(fit_intercept = True)\nLR.fit(new_X[predictor_variables], new_X[\"log_costs\"])\n\ntop_result\n\n2\n\n\nFrom here, we now want to compute our \\(e^{w_b}\\) and we access our \\(w_b\\) by looking at our LR.coef. Since it is supposed to be the same order as the variables we put in, we are going to look at the first value.\n\nimport math \nmath.e**LR.coef_[0] \n\n0.7693199308357737\n\n\nThis value shows that the cost incurred by Black patients as a percentage of White patients is about 77%. In more understandable terms, this means that Black patients only spend 77% of what White patients spend. Thats only 77 cents spent by Black Patients for every dollar that White patients are spending!\nThis connects directly both with the graphs previously created in this document as well as a key component of the main argument of Obermeyer et al.(2019), which states that Black patients incur less costs than equally sick White patients."
+  },
+  {
+    "objectID": "posts/replication-blog-post/index.html#references",
+    "href": "posts/replication-blog-post/index.html#references",
+    "title": "Replication Study Blog",
+    "section": "References",
+    "text": "References\nBarocas, Solon, Moritz Hardt, and Arvind Narayanan. 2023. Fairness and Machine Learning: Limitations and Opportunities. Cambridge, Massachusetts: The MIT Press.\nObermeyer, Ziad, Brian Powers, Christine Vogeli, and Sendhil Mullainathan. 2019. “Dissecting Racial Bias in an Algorithm Used to Manage the Health of Populations.” Science 366 (6464): 447–53. https://doi.org/10.1126/science.aax2342."
   }
 ]
