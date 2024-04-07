@@ -2,6 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/WiDs-blog-post/Untitled-1.html",
+      "/posts/WiDs-blog-post/index.html",
+      "/posts/perceptron-post/index.html",
       "/posts/replication-blog-post/index.html",
       "/posts/penguins-blog-post/index.html"
     ]

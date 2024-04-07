@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Manuel Fors">
+<meta name="dcterms.date" content="2024-04-03">
+<meta name="description" content="Essay on attending WiDS at Middlebury">
 
-<title>My Awesome CSCI 0451 Blog</title>
+<title>My Awesome CSCI 0451 Blog - WiDS Conference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>
 
       .quarto-title-block .quarto-title-banner h1,
@@ -111,42 +83,13 @@ ul.task-list li input[type="checkbox"] {
 
       .quarto-title-block .quarto-title-banner {
         color: white;
-background-image: url(img/landscape.png);
+background-image: url(../../img/landscape.png);
 background-size: cover;
       }
 </style>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -156,7 +99,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">My Awesome CSCI 0451 Blog</span>
     </a>
   </div>
@@ -167,7 +110,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -190,198 +133,136 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">My Awesome CSCI 0451 Blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">WiDS Conference</h1>
+                  <div>
+        <div class="description">
+          Essay on attending WiDS at Middlebury
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">csci415</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Manuel Fors </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 3, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(5)</span></div><div class="category" data-category="csci415">csci415 <span class="quarto-category-count">(4)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
 
 
+<section id="the-women-in-data-science-wids-conference-at-middlebury-college" class="level1 page-columns page-full">
+<h1>The Women in Data Science (WiDS) Conference at Middlebury College</h1>
+<section id="abstract" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>On March 4th, I attended the WiDS conference here in Middlebury. The room was filled with Middlebury Students eager to hear lectures, talk to peers, and eat some delicious snacks. Looking around the room, there is a 60/40 split of women and men. To a passerby, it might seem like Computer Science is a deeply diverse. To Computer Science Majors at Middlebury, one can notice that the class is roughly a 50/50 split of men. I learned from 4 different Professors on how to use data, and what it means to be a women in Data Science. I read the report “Solving the Equation: The Variables for Women’s Success in Engineering and Computing” written by Corbett and Hill (2015) to supplement all the work I did in this essay and from there I learned that women were the original data scientists that were then systematically excluded from the same profession over-time.</p>
+<section id="why-then-do-women-make-only-13-of-all-engineers" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="why-then-do-women-make-only-13-of-all-engineers">Why then, do women make only 13% of all engineers?</h3>
+<p>To answer this question, let us first reflect on the history of women in Computer Science, Engineering, and Math to understand the situation women face now. Leading up to the 1950s, the “first computing programmer”, Ada lovelace figured out that one could feed a series of instructions to an theoretical machine to perform calculations. Women were among the first programmers of the ENIAC during World War 2. This led traditionally male engineering programs to start allowing the admission of women to these institutions.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="grace_hopper.jpg" class="img-fluid figure-img"></p>
+<figcaption>Image 1. A picture of Grace Hopper, the creator of the first compiler! Courtesy of Getty Images</figcaption>
+</figure>
+</div>
+</div></div><p>Computing in the 1960s was still viewed as a “low-status clerical” job, which revolved around administrative and “secretary”-style work. However, companies began to use aptitude tests that male stereotypes heavily benefited from. A strong personality began to develop around Computer Science, leading to the stereotype of “antisocial, mathematically inclined males” being the face of Computer Science. While prompting a drop in representation of women in CS, there existed another significant drop in the 1980s.</p>
+<p>The personal computer became a “toy” for young men to get heavy interaction with in the home. This connected gaming culture to the home, which was a culture that traditionally excluded women. As Gamer-culture has become entwined with those those interested in Computer Science departments, it is important to notice <em>what actually happens</em> at these companies that revolve around gaming. What you can see can be regarded as <a href="https://www.washingtonpost.com/video-games/2021/08/06/blizzard-culture-sexual-harassment-alcohol/">“frat boy behavior”</a>, in which these large video-game companies, which heavily influence those who get into computer science, are creating unsafe and harmful situations in which women who want to work in industry are forced to face. This feeds into an unfortunate positive feedback loop, where as more women feel uncomfortable and leave these positions, men then fill in the gaps. What are the reprecussions of diversity dropping in tech and related fields?</p>
+<p>With the growing amount of dependency our world has on the work of tech companies, algorithms continue to be implemented to affect lives in a major way. As can be clearly inferred, missing half the population can lead to drastic consequences, and is as unsustainable as fossil fuel usage. With greater diversity of thought in the workplace, we can make better, more informed decisions. Moreover, it leads to lower quality to life for women in the workforce. Engineering and CS tend to offer job benefits that are rarer in other fields. Workplace flexibility exploded during COVID, but engineering roles have maintained that working from home is a viable path. There are reports that Job satisfaction is higher in engineering jobs, and while I believe often times applies more to men, these companies can most definitely offer this satisfaction for women in these companies, if they fix their current issues that push women away. Perhaps most importantly, the engineering and computing fields have almost entirely closed the gender pay gap, with women being paid 90 cents for every dollar made by a man.</p>
+</section>
+<section id="is-there-hope" class="level3">
+<h3 class="anchored" data-anchor-id="is-there-hope">Is there hope?</h3>
+<p>These disciplines continue to disenfranchise women with work-life balance issues, sense of belonging, in-group favoritism, and microinequities, so is there any hope? I think that is a perfectly logical question, to which I of course say yes!! It is important to remember that people all around the world are trying to resolve this imbalance in Math, Engineering, and CS. Programs like <a href="https://girlswhocode.com/">Girls who code</a> seek to provide opportunities for more women to get access to coding and eventually becoming engineers. Huge conferences like the <a href="https://ghc.anitab.org/">Grace Hopper Conference</a> try to connect female and non-binary students from around the world to network and connect with female professionals in the Engineering and Data Science fields. However, how does a college or university get to push women towards these disciplines? Fostering a strong bond between engineers-to-be and working professionals at the same university is where events like WiDS comes in.</p>
+</section>
+<section id="my-experience-at-wids" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="my-experience-at-wids">My experience at WiDS</h3>
+<p>It was exciting to be seated among so many people in STEM at Middlebury. The room was much more diverse than the average Middlebury classroom, and we all munched on small snacks as we waited for the presentations to begin.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="profyuen.jpg" class="img-fluid figure-img"></p>
+<figcaption>Image 2. A picture of Professor Amy Yuen</figcaption>
+</figure>
+</div>
+</div></div><p>The first presenter was Professor Amy Yuen. She is a political science teacher at Middlebury that focuses her research on the intersection between game theory, large statistical (SC) and asked two questsion: Why do members continue to run for spots and is the SC democratic? Through these questions she wanted to answer whose issues are discussed on the international stage. Her research showed two key things: 1. There are Permanent Members whose main job is to fight crisis and maintain. 2. Elected Members are more likely to fight for current issues. Within these Elected Members, there are some who invest lots of money to get reelected. Ultimately, this answered that members who continue to run are trying to fight for current issues and that the SC is not democratic as votes from certain countries carry more weight i.e.&nbsp;Permanent Members.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="profbrown.png" class="img-fluid figure-img"></p>
+<figcaption>Image 3. A picture of Professor Sarah Brown</figcaption>
+</figure>
+</div>
+</div></div><p>The second presenter was Professor Sarah Brown. She is a Computer Science professor at the University of Rhode Island. Her research focuses on Machine Learning as a multidisciplinary field. As a keynote speaker, Professor Brown did not fail to deliver. With a BS, MS, and PhD, she appears to be an extremely STEM and hard science person. However, her presentation sought to explain what makes up Machine learning. It is made up of three domains: Computer Science, Statistics, and Domain-Expertise. While CS students often also understand statistics, they have to reach out to domain-experts for their expertise. What Professor Brown presented was how Computer Scientists and Data Scientists can add specific “keys” to their toolbox to unlock this knowledge.</p>
+<p>She presented three keys: “Contextualize Data”, “Disciplines Are Communities”, and “Meet People Where They Are”. Professor Brown explains that data is a primary source. Treat this like Social studies class and use context to supplement the trends you are seeing, and you will see underlying properties emerge. After seeing these patterns, it is important to know when to make and deploy a model. As a community and a discipline, we must define fairness, and know how that influences so that we can properly determine how to use our models. But how do we ensure that people do their due diligence and try to ensure fairness? This is where we meet people where they are. You have to show that unbiased algorithms affect all of us, and that all of us need to fight for fairness in algorithms.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="proflroe.jpg" class="img-fluid figure-img"></p>
+<figcaption>Image 4. A picture of Professor Jessica L’Roe</figcaption>
+</figure>
+</div>
+</div></div><p>The third presenter was Professor Jessica L’Roe. She is a professor of Geoegraphy at Middlebury that studies the relationship with humans in forest landscape in East Africa and the Amazon. Professor L’Roe brought a refreshing look at how data can be used in non-traditional settings, and more importantly how data is collected. She presented quite a bit of work, but her research on “Landscape Changes around Kibale National Park” was particularly interesting. She harped on the importance of both qualitative and quantitative data. A piece of data that was particularly interesting to me was collecting data about what benefits people felt from the forest near them. Within her talk, her overall question appeared to be “How do you apply stats to work?” and she challenged this by showcasing her various usages of data.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="profbiester.jpg" class="img-fluid figure-img"></p>
+<figcaption>Image 5. A picture of Professor Laura Biester</figcaption>
+</figure>
+</div>
+</div></div><p>The fourth presenter was Professor Laura Biester. She is a professor in our very own Computer science department at Middlebury. Her research focuses on natural language processing and computational social science. Her talk focused on a pretty impressive technological feat of searching all the comments in reddit and finding examples of people using “identity claims” of depression. These were instances where people stated that they were diagnosed with depression. The question posed was to discover if there were benefits to sharing one’s diagnosis on an anonymous forumn like Reddit. The research focused on the difference in the way they spoke before and following their identity claim. The research ultimately showed that they displayed more positive emotions after their identity claim.</p>
+</section>
+<section id="reflection" class="level3">
+<h3 class="anchored" data-anchor-id="reflection">Reflection</h3>
+<p>From this blog, I learned how to speak about a very real issue in Computer Science. Women continue to choose other fields not because of some arbitrary disinterest but because of a slew of behavior within the CS world that is both intentionally and unintentionally excludes women. These same causes also disproportionately underrepresented minority women to be significantly less likely to pursue fields related to engineering. I identified with some of the struggles faced by women as a Latino man interested in the CS world, particularly the inherent in-group favoritism and a sense of belonging. I also understood that there were varying degrees with which I identified with the very serious problems that women face in these disciplines. Going to the conference gave me a very unique opportunity to listen to female professionals adjacent to the Engineering disciplines clearly outline how they used data in their every day work. Following this meeting I talked to my partner a bit about this blog post and she told me possibly my biggest takeaway from the reading and essay I have synthesized. Female Professionals, regardless of the field, thread a delicate line between displaying femininity and masculinity. Particularly in the CS world, they are competing in a predominantly male field, and thus “masculine” traits are cherished. However, women are still expected to be somewhat feminine, otherwise they are also seen in a negative light. Having to experience this sort of dysphoria in the workplace was incredibly eye-opening to me, and without this blog post I might not have learned that.</p>
+<p>From the presenters, I particularly enjoyed the key-note speaker. Professor Brown did an incredible job connecting soft skills to Computer Science. I resonated heavily with the way she detailed how our past experiences in non-STEM areas should influence how we are thinking about CS. Moreover, she provided a unique viewpoint being an extremely decorated POC female professor and gave liberal arts CS majors a sense of tranquility as we apply to opportunities in the real world.</p>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<ul>
+<li><p>“https://www.aauw.org/app/uploads/2020/03/Solving-the-Equation-report-nsa.pdf” by Corbett and Hill 2015</p></li>
+<li><p>“https://www.middlebury.edu/college/academics/computer-science/faculty-and-staff” (for photos)</p></li>
+</ul>
 
 
+</section>
+</section>
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1712169672586" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="thumbnail">
-<p><a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a></p><a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a>
-</div>
-</div>
-<div class="metadata">
-<p><a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external"></a></p><a href="./posts/WiDs-blog-post/Untitled-1.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="csci415" data-listing-date-sort="1712116800000" data-listing-file-modified-sort="1712509110955" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1876">
-<div class="thumbnail">
-<p><a href="./posts/WiDs-blog-post/index.html" class="no-external"></a></p><a href="./posts/WiDs-blog-post/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/WiDs-blog-post/grace_hopper.jpg"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/WiDs-blog-post/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/WiDs-blog-post/index.html" class="no-external">WiDS Conference</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/WiDs-blog-post/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('csci415'); return false;">
-csci415
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/WiDs-blog-post/index.html" class="no-external">Essay on attending WiDS at Middlebury</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/WiDs-blog-post/index.html" class="no-external">
-<div class="listing-date">
-Apr 3, 2024
-</div>
-<div class="listing-author">
-Manuel Fors
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="csci415" data-listing-date-sort="1711080000000" data-listing-file-modified-sort="1711918835920" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="11">
-<div class="thumbnail">
-<p><a href="./posts/perceptron-post/index.html" class="no-external"></a></p><a href="./posts/perceptron-post/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/perceptron-post/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/perceptron-post/index.html" class="no-external">Perceptron Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/perceptron-post/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('csci415'); return false;">
-csci415
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/perceptron-post/index.html" class="no-external">This is an implementation of the Perceptron Algorithm</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/perceptron-post/index.html" class="no-external">
-<div class="listing-date">
-Mar 22, 2024
-</div>
-<div class="listing-author">
-Manuel Fors
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="csci415" data-listing-date-sort="1710993600000" data-listing-file-modified-sort="1711047721736" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="976">
-<div class="thumbnail">
-<p><a href="./posts/replication-blog-post/index.html" class="no-external"></a></p><a href="./posts/replication-blog-post/index.html" class="no-external">
-<p class="card-img-top"><img src="posts/replication-blog-post/index_files/figure-html/cell-3-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/replication-blog-post/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/replication-blog-post/index.html" class="no-external">Replication Study Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/replication-blog-post/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('csci415'); return false;">
-csci415
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/replication-blog-post/index.html" class="no-external">This focuses on a study done on medical algorithms that assign scores to individuals and contains a racial bias.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/replication-blog-post/index.html" class="no-external">
-<div class="listing-date">
-Mar 21, 2024
-</div>
-<div class="listing-author">
-Manuel Fors
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="csci415" data-listing-date-sort="1708059600000" data-listing-file-modified-sort="1709160403466" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="621">
-<div class="thumbnail">
-<p><a href="./posts/penguins-blog-post/index.html" class="no-external"></a></p><a href="./posts/penguins-blog-post/index.html" class="no-external">
-<p><img src="./posts/penguins-blog-post/penguin.png" class="thumbnail-image"></p>
-</a><p><a href="./posts/penguins-blog-post/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/penguins-blog-post/index.html" class="no-external">Penguin Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/penguins-blog-post/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('csci415'); return false;">
-csci415
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/penguins-blog-post/index.html" class="no-external">Penguin classifier</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/penguins-blog-post/index.html" class="no-external">
-<div class="listing-date">
-Feb 16, 2024
-</div>
-<div class="listing-author">
-Manuel Fors
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
