@@ -246,7 +246,7 @@ window.Quarto = {
 </section>
 <section id="abstract" class="level1">
 <h1>Abstract</h1>
-<p>Medical Algorithms are increasingly more important for hospitals as they attempt to systematically assist patients with greater health needs. However, with the quick adoption of algorithms that can have potentially dramatical consequences, its important for researchers to ensure there is no mal-practice and significant bias. Obermeyer et al.&nbsp;(2019) sought to analyze inherent racial bias in a commerical algorithm used by the health care system. This blog post examines this analysis in order to validate the findings of Obermeyer et. Al. Through graphics and Linear Regression, we find four major insights: Black patients are sicker than White patients, White patients have higher medical expenditures, Black Patients receive lower risk scores, and Black Female patients receive the lowest risk scores. With this information, we solidify the findings of Obermeyer et al.&nbsp;(2019) that medical expenditure serves as a proxy for risk score assignment by this algorithm</p>
+<p>Medical Algorithms are increasingly more important for hospitals as they attempt to systematically assist patients with greater health needs. However, with the quick adoption of algorithms that can have potentially dramatical consequences, its important for researchers to ensure there is no mal-practice and significant bias. Obermeyer et al.&nbsp;(2019) sought to analyze inherent racial bias in a commerical algorithm used by the health care system. This blog post examines this analysis in order to validate the findings of Obermeyer et. Al. Through graphics and Linear Regression, we find four major insights: Black patients are sicker than White patients, White patients have higher medical expenditures, Black Patients receive lower risk scores, and Black Female patients receive the lowest risk scores. With this information, we solidify the findings of Obermeyer et al.&nbsp;(2019) that because of inherent racial bias in the algorithm, Black patients are less likely to be identified for extra care because medical expenditure serves as a proxy for risk score assignment.</p>
 <div id="cell-3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -282,6 +282,7 @@ window.Quarto = {
 </div>
 </div>
 <p>There are quite a few things to notice. The most striking is that when White patients and Black patients have the same number of illnesses, White patients tend to have a higher risk score. It also appears that Black female patients are the sickest population in this dataset. In addition to this, most people have 4 or less chronic illnesses on average.</p>
+<p>The very real implications of this are that Black patients are disproportionately less likely to receive a high risk score regardless of their mean number of chronic illnesses when compared to White patients. That means there is an underlying variable that is deciding that Black patients should not get a higher score.</p>
 </section>
 <section id="part-c-visualizing-our-data-difficulty-1000" class="level3">
 <h3 class="anchored" data-anchor-id="part-c-visualizing-our-data-difficulty-1000">Part C: Visualizing our data (difficulty: 1000)</h3>
@@ -445,9 +446,23 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </section>
 <section id="discussion" class="level1">
 <h1>Discussion</h1>
-<p>Citing Chapter 3 of Barocas, Hardt, and Narayanan. The issue with this algorithm is a lack of Independence and Sufficiency. In the terms of Independence, * Black patients are disproportionately less likely to spend as much money as White patients. * Black patients are disproportionately sicker. * Black female patients are disproportiontaely.</p>
-<p>In the terms of Sufficiency, the issues are are similar * Black patients and White patients do not have an equal amount of sickness * Black patients and White patients do spend equal amounts of money in the hospital system.</p>
-<p>Due the lack of Independence and Sufficiency, we see how this algorithm fails to formal statistical non-discrimination criteria. Through this discovery we have also summarized our findings well.</p>
+<p>Citing Chapter 3 of Barocas, Hardt, and Narayanan, the issue with this algorithm is a lack of Independence and Sufficiency. Let us first discuss what these two variables mean before seeing how they connect to our replication study.</p>
+<p>Independence means the equality of outcomes for our data should be the same. A classifier variable, like medical score, should not be linked to a sensitive attribute, such as race. Thus, they should be <em>independent</em> of one another.</p>
+<p>In the terms of Independence,</p>
+<ul>
+<li><p>Black patients are disproportionately less likely to spend as much money as White patients.</p></li>
+<li><p>Black patients are disproportionately sicker.</p></li>
+<li><p>Black patients are disproportionately less likely to have high medical score.</p></li>
+</ul>
+<p>Sufficiency is that we should have the same accuracy for two different groups. Thus, our Black and White patients should have the same chance to have given score if they have the same number of chronic illnesses.</p>
+<p>In the terms of Sufficiency, the issues are similar:</p>
+<ul>
+<li><p>Black patients and White patients do not have an equal amount of sickness</p></li>
+<li><p>Black patients and White patients do spend equal amounts of money in the hospital system.</p></li>
+<li><p>Black patients that are equally qualififed as White patients to get a given risk score unfairly receive lower scores</p></li>
+</ul>
+<p>Independence and Suffiency fall under a category of metrics used to determine the fairness of an algorithm known as “Non-discrimination criteria”. These are backed by formal statistics and thus the full name is <a href="https://fairmlbook.org/classification.html">formal statistical non-discrimination criteria</a>. When working with machine learning models and algorithms, its important to see how we satisfy these criteria to determine whether or not we have maintained fairness.</p>
+<p>Due the lack of Independence and Sufficiency, we see how this algorithm incorporates some inherent bias. Through this discovery we have also summarized our findings well.</p>
 <p>I enjoyed this blog post a lot academically. Having to work with seaborn at this level is new and exciting. The paper itself was an interesting read and it opens the world of critiquing algorithms for bias to me. Ultimately, I appreciated trying to satisfy a formula and using formal means to prove that an algorithm is biased.</p>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
