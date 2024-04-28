@@ -216,14 +216,18 @@ background-size: cover;
 
 
 <section id="part-a-grab-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="part-a-grab-the-data"><strong>Part A: Grab the data</strong></h2>
-<div id="cell-2" class="cell" data-execution_count="2">
+<h2 class="anchored" data-anchor-id="part-a-grab-the-data">Part A: Grab the data</h2>
+<div id="cell-2" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/PhilChodrow/ml-notes/main/data/credit-risk/train.csv"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df_train <span class="op">=</span> pd.read_csv(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-3" class="cell" data-execution_count="5">
+</section>
+<section id="part-b-exploration-through-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="part-b-exploration-through-visualization">Part B: Exploration through visualization</h2>
+<p>I want to explore the data through some categorical variables. Specifically, I am curious about how loan intent correlates with the loan grade people are getting as well as what kind</p>
+<div id="cell-4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"darkgrid"</span>)</span>
@@ -239,7 +243,7 @@ background-size: cover;
 </div>
 </div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="6">
+<div id="cell-5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>figure2 <span class="op">=</span> sns.relplot(data<span class="op">=</span>df_train, x<span class="op">=</span><span class="st">"loan_amnt"</span>, y<span class="op">=</span><span class="st">"loan_grade"</span>, col<span class="op">=</span><span class="st">"person_home_ownership"</span>, hue <span class="op">=</span><span class="st">"loan_status"</span>, col_wrap<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -250,7 +254,7 @@ background-size: cover;
 </div>
 </div>
 <p>Exploring new graphs, I want to potentially answer the questions</p>
-<div id="cell-6" class="cell" data-execution_count="7">
+<div id="cell-7" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>figure3<span class="op">=</span>sns.scatterplot(data<span class="op">=</span>df_train, x<span class="op">=</span><span class="st">'person_age'</span>, y<span class="op">=</span><span class="st">'person_emp_length'</span>, hue<span class="op">=</span><span class="st">'loan_intent'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -260,7 +264,7 @@ background-size: cover;
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-execution_count="8">
+<div id="cell-8" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_over_100_age <span class="op">=</span> df_train[df_train[<span class="st">'person_age'</span>]<span class="op">&gt;</span><span class="dv">100</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_over_100_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -352,7 +356,7 @@ background-size: cover;
 </div>
 </div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="16">
+<div id="cell-9" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_under_100_age_and_under_60_emp_years <span class="op">=</span> df_train[(df_train[<span class="st">'person_age'</span>]<span class="op">&lt;</span><span class="dv">100</span>) <span class="op">&amp;</span> (df_train[<span class="st">'person_emp_length'</span>]<span class="op">&lt;</span><span class="dv">60</span>)]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>figure4<span class="op">=</span>sns.scatterplot(data<span class="op">=</span>df_under_100_age_and_under_60_emp_years, x<span class="op">=</span><span class="st">'person_age'</span>, y<span class="op">=</span><span class="st">'person_emp_length'</span>, hue<span class="op">=</span><span class="st">'loan_intent'</span>, size<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
@@ -363,7 +367,7 @@ background-size: cover;
 </div>
 </div>
 </div>
-<div id="cell-9" class="cell" data-vscode="{&quot;languageId&quot;:&quot;ruby&quot;}" data-execution_count="47">
+<div id="cell-10" class="cell" data-vscode="{&quot;languageId&quot;:&quot;ruby&quot;}" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#18-24 #25-34 #35-44 45-64 65+ </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#lets make a summary table</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -377,17 +381,17 @@ background-size: cover;
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>most_common_intent_loan_by_age <span class="op">=</span> df_under_100_age.groupby(<span class="st">'age_band'</span>)[<span class="st">'loan_intent'</span>].agg(<span class="kw">lambda</span> x: x.value_counts().index[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_721153/406788686.py:10: SettingWithCopyWarning: 
+<pre><code>/tmp/ipykernel_829762/406788686.py:10: SettingWithCopyWarning: 
 A value is trying to be set on a copy of a slice from a DataFrame.
 Try using .loc[row_indexer,col_indexer] = value instead
 
 See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
   df_under_100_age['age_band'] = pd.cut(df_under_100_age['person_age'], bins=age_bins, labels=age_labels, right=False)
-/tmp/ipykernel_721153/406788686.py:12: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+/tmp/ipykernel_829762/406788686.py:12: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
   most_common_intent_loan_by_age = df_under_100_age.groupby('age_band')['loan_intent'].agg(lambda x: x.value_counts().index[0])</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="48">
+<div id="cell-11" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>summary_loan_intent_by_age <span class="op">=</span> df_under_100_age.pivot_table(index<span class="op">=</span><span class="st">'age_band'</span>, columns<span class="op">=</span><span class="st">'loan_intent'</span>, aggfunc<span class="op">=</span><span class="st">'size'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(most_common_intent_loan_by_age)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>summary_loan_intent_by_age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -400,7 +404,7 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 65+        MEDICAL
 Name: loan_intent, dtype: object</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -477,6 +481,90 @@ Name: loan_intent, dtype: object</code></pre>
 </div>
 </div>
 </div>
+<div id="cell-12" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_under_100_age_under_10_emp <span class="op">=</span> df_under_100_age[df_under_100_age[<span class="st">'person_emp_length'</span>]<span class="op">&lt;</span><span class="dv">10</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>summary_loan_intent_by_age_under_10_emp <span class="op">=</span> df_under_100_age_under_10_emp.pivot_table(index<span class="op">=</span><span class="st">'age_band'</span>, columns<span class="op">=</span><span class="st">'loan_intent'</span>, aggfunc<span class="op">=</span><span class="st">'size'</span>, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>summary_loan_intent_by_age_under_10_emp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">loan_intent</th>
+<th data-quarto-table-cell-role="th">DEBTCONSOLIDATION</th>
+<th data-quarto-table-cell-role="th">EDUCATION</th>
+<th data-quarto-table-cell-role="th">HOMEIMPROVEMENT</th>
+<th data-quarto-table-cell-role="th">MEDICAL</th>
+<th data-quarto-table-cell-role="th">PERSONAL</th>
+<th data-quarto-table-cell-role="th">VENTURE</th>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">age_band</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18-24</td>
+<td>1519</td>
+<td>2489</td>
+<td>574</td>
+<td>1650</td>
+<td>1556</td>
+<td>1752</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25-34</td>
+<td>1699</td>
+<td>1662</td>
+<td>1504</td>
+<td>2021</td>
+<td>1753</td>
+<td>1767</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">35-44</td>
+<td>319</td>
+<td>356</td>
+<td>265</td>
+<td>396</td>
+<td>327</td>
+<td>368</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">45-64</td>
+<td>65</td>
+<td>68</td>
+<td>60</td>
+<td>76</td>
+<td>129</td>
+<td>59</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">65+</td>
+<td>2</td>
+<td>3</td>
+<td>0</td>
+<td>11</td>
+<td>9</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="part-c-fitting-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="part-c-fitting-the-model">Part C: Fitting the model</h2>
 
 
 </section>
