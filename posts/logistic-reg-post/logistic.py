@@ -4,6 +4,7 @@ import numpy as np
 class LinearModel:
 
     def __init__(self):
+        self.previous = None
         self.w = None 
 
     def score(self, X):
@@ -59,26 +60,26 @@ class LogisticRegression(LinearModel):
         # make vector v aand then convert it to shape (n, 1) 
         v = self.sigmoid(self.score(X)) - y 
         v_ = v[:, None]
-        g = torch.mean(v_*X)
+        g = torch.mean(v_*X, dim = 0)
         return g 
 
 class GradientDescentOptimizer(LinearModel):
     def __init__(self, model):
         self.model = model
-        self.prev_weight = None
-        self.current_weight = self.model.w
     
     def step(self, X, y, alpha, beta):
-        
                 
-        if self.prev_weight == None: 
-            self.prev_weight = torch.rand((X.size()[1]))
+        if self.model.previous == None: 
+            self.model.previous = torch.rand((X.size()[1]))
 
-        if self.current_weight == None:
-            self.current_weight = torch.rand((X.size()[1]))
+        if self.model.w == None:
+            self.model.w = torch.rand((X.size()[1]))
 
-        temp_weight = self.current_weight
-        self.current_weight -= alpha * self.model.grad(X, y) + beta * (self.current_weight - self.prev_weight)
-        self.model.w = self.current_weight
-        self.prev_weight = temp_weight
+        temp_weight = self.model.w#clone()
+
+        self.model.w = self.model.w - alpha * self.model.grad(X, y) + beta * (self.model.w - self.model.previous)
+        
+        #self.model.w = self.model.w.clone()
+        
+        self.model.previous = temp_weight#.clone()
     
