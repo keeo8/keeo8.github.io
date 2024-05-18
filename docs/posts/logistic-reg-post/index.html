@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Manuel Fors">
+<meta name="dcterms.date" content="2024-06-17">
+<meta name="description" content="Implementation of Logistic Regression using Gradient Descent with Momentum">
 
-<title>My Awesome CSCI 0451 Blog - Part A: Initialize packages and data</title>
+<title>Manuel Fors Computer Science Blog - Logistic Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -160,7 +163,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">My Awesome CSCI 0451 Blog</span>
+    <span class="navbar-title">Manuel Fors Computer Science Blog</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -194,14 +197,34 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Part A: Initialize packages and data</h1>
-                      </div>
+      <h1 class="title">Logistic Regression</h1>
+                  <div>
+        <div class="description">
+          Implementation of Logistic Regression using Gradient Descent with Momentum
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">csci415</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Manuel Fors </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 17, 2024</p>
+      </div>
+    </div>
     
       
     </div>
@@ -218,9 +241,13 @@ window.Quarto = {
 
 
 
+<section id="abstract" class="level2">
+<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
+<p>Gradient Descent remains a modern way to minimize loss in a Machine Learning Algorithm. As a result, it is important to explore the different ways this can be improved. Through implementation of a Logistic Regression using Gradient Descent with momentum, I proved graphically how the efficacy of models with momentum superpassess that of those without. When using Gradient Descent, it is better to use momentum as it converges faster. I also show the issue of utilizing more dimensions than there are points. This leads to overfitting, and results in poor accuracy. When you have more dimensions than points, it is best to lower your dimensions by attempting to combine sparse dimensions or by removal. The source of my code lies <a href="https://github.com/keeo8/keeo8.github.io/blob/main/posts/logistic-reg-post/logistic.py">here</a></p>
+</section>
 <section id="part-a-initialize-packages-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="part-a-initialize-packages-and-data">Part A: Initialize packages and data</h2>
-<div id="cell-1" class="cell" data-metadata="{}" data-execution_count="1">
+<div id="cell-3" class="cell" data-metadata="{}" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>load_ext autoreload</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>autoreload <span class="dv">2</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -242,11 +269,10 @@ window.Quarto = {
 </section>
 <section id="part-b-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="part-b-experiments">Part B: Experiments</h2>
-<p>Here we run a gradient descent loop</p>
 <section id="vanilla-gradient-descent" class="level3">
 <h3 class="anchored" data-anchor-id="vanilla-gradient-descent">Vanilla Gradient Descent</h3>
-<p>Let us understand how our Vanilla Gradient Descent works</p>
-<div id="cell-5" class="cell" data-metadata="{}" data-execution_count="14">
+<p>As in all of our following models, we are going to utilize Gradient Descent. This means that we are going to continously attempt to reach a local maximum in gradual steps. We will eventually converge to a value and our loss will start to plateau at a given value.</p>
+<div id="cell-6" class="cell" data-metadata="{}" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression() </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> GradientDescentOptimizer(LR)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -257,10 +283,11 @@ window.Quarto = {
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    opt.step(X, y, alpha <span class="op">=</span> <span class="fl">0.04</span>, beta <span class="op">=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We first perform our vanilla gradient descent, which means <span class="math inline">\(p_{dim} = 2\text{, }α = 0.03\text{, and }β = 0\)</span> we can see from our line that it converges to the correct weight vector around 6000 iterations</p>
-<div id="cell-7" class="cell" data-metadata="{}" data-execution_count="15">
+<div id="cell-8" class="cell" data-metadata="{}" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.plot(vanilla_loss_vec, color <span class="op">=</span> <span class="st">"black"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>labs <span class="op">=</span> plt.gca().<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Number of gradient descent iterations"</span>, ylabel <span class="op">=</span> <span class="st">"Loss (binary cross entropy)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Loss Gradient Descent without Momentum over iterations"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>labs <span class="op">=</span> plt.gca().<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Number of gradient descent iterations"</span>, ylabel <span class="op">=</span> <span class="st">"Loss (binary cross entropy)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -272,8 +299,9 @@ window.Quarto = {
 </section>
 <section id="using-momentum" class="level3">
 <h3 class="anchored" data-anchor-id="using-momentum">Using momentum</h3>
+<p>Something that gradient descent falls victim to, is thinking it discovered a global minimum, when in fact it has found a local minimum. The idea of momentum is that the our algorithm should converge at a faster rate than vanilla gradient descent. It also means that it should be able to overcome areas that appears to be global minima, by “speeding” through those areas with assisted momentum.</p>
 <p>We then perform our gradient descent with momentum, which means <span class="math inline">\(p_{dim} = 2\text{, }α = 0.03\text{, and }β = 0.9\)</span> we can see an extremely sharp drop off from our loss which converges to the correct weight vector around a few hundred iterations</p>
-<div id="cell-9" class="cell" data-metadata="{}" data-execution_count="34">
+<div id="cell-10" class="cell" data-metadata="{}" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression() </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>opt <span class="op">=</span> GradientDescentOptimizer(LR)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -283,7 +311,7 @@ window.Quarto = {
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    momentum_loss_vec.append(loss)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    opt.step(X, y, alpha <span class="op">=</span> <span class="fl">0.03</span>, beta <span class="op">=</span> <span class="fl">.9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-10" class="cell" data-metadata="{}" data-execution_count="36">
+<div id="cell-11" class="cell" data-metadata="{}" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.plot(momentum_loss_vec, color <span class="op">=</span> <span class="st">"black"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Loss Gradient Descent with Momentum over iterations"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>labs <span class="op">=</span> plt.gca().<span class="bu">set</span>(xlabel <span class="op">=</span> <span class="st">"Number of gradient descent iterations"</span>, ylabel <span class="op">=</span> <span class="st">"Loss (binary cross entropy)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -298,16 +326,16 @@ window.Quarto = {
 </section>
 <section id="overfitting" class="level3">
 <h3 class="anchored" data-anchor-id="overfitting">Overfitting</h3>
-<p>The curse of all scientists trying to make predictions with models is the potential to overfit. If we have more dimensions than we have points, then the data is highly <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse</a>, meaning that there are many dimensions with little or no points. With higher dimensionality, the model will more likely to fit to noise.</p>
+<p>The curse of all scientists trying to make predictions with models is the potential to overfit. If we have more dimensions than we have points, then the data is highly <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse</a>, meaning that there are many dimensions with little or no points. With higher dimensionality, the model will more likely to fit to noise. Thus, we are going to simulate how this can happen with more dimensions than points.</p>
 <section id="creating-our-data" class="level4">
 <h4 class="anchored" data-anchor-id="creating-our-data">Creating our data</h4>
 <p>In order to model what happens when we have more dimensions than we have points, let’s call our classification_data function twice so that we can save training data and test dating. That way, we can see what overfitting on our training data causes our predictions to look like on our test data.</p>
 <p>We give them the same parameters <span class="math display">\[\text{n\_points = 50, noise = 0.5, p\_dims = 100}\]</span></p>
-<div id="cell-13" class="cell" data-metadata="{}" data-execution_count="54">
+<div id="cell-14" class="cell" data-metadata="{}" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> classification_data(n_points <span class="op">=</span> <span class="dv">50</span>, noise <span class="op">=</span> <span class="fl">0.5</span>, p_dims <span class="op">=</span> <span class="dv">100</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> classification_data(n_points <span class="op">=</span> <span class="dv">50</span>, noise <span class="op">=</span> <span class="fl">0.5</span>, p_dims <span class="op">=</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-14" class="cell" data-metadata="{}" data-execution_count="77">
+<div id="cell-15" class="cell" data-metadata="{}" data-execution_count="77">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression() </span>

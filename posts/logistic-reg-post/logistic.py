@@ -4,6 +4,9 @@ import numpy as np
 class LinearModel:
 
     def __init__(self):
+
+        # here I intialize both my weight and the previous weight
+        # which will be used in gradient descent
         self.previous = None
         self.w = None 
 
@@ -48,18 +51,23 @@ class LinearModel:
         return y_hat
 
 class LogisticRegression(LinearModel):
+    # Here I define a sigmoid function for clarity
     def sigmoid(self, s):
         return 1 / (1  + torch.exp(-s))
 
     def loss(self, X, y):
         sigscore = self.sigmoid(self.score(X))
+        
+        # we calculate our loss
         l = torch.mean(-y * torch.log(sigscore) - (1 - y) * torch.log(1 - sigscore))
         return l
 
     def grad(self, X, y):
-        # make vector v aand then convert it to shape (n, 1) 
+        # make vector v and then convert it to shape (n, 1) 
         v = self.sigmoid(self.score(X)) - y 
         v_ = v[:, None]
+
+        # caculate the mean
         g = torch.mean(v_*X, dim = 0)
         return g 
 
@@ -69,17 +77,19 @@ class GradientDescentOptimizer(LinearModel):
     
     def step(self, X, y, alpha, beta):
                 
+        # if there is no previous weight, initialize a random weight
         if self.model.previous == None: 
             self.model.previous = torch.rand((X.size()[1]))
 
+        # if there is no current weight, initialize a random weight
         if self.model.w == None:
             self.model.w = torch.rand((X.size()[1]))
 
-        temp_weight = self.model.w#clone()
+        # we set a temp_weight to keep track of our current weight
+        temp_weight = self.model.w
 
+        # we update the current weight to a new weight
         self.model.w = self.model.w - alpha * self.model.grad(X, y) + beta * (self.model.w - self.model.previous)
-        
-        #self.model.w = self.model.w.clone()
-        
-        self.model.previous = temp_weight#.clone()
-    
+
+        # we store our old current weight as a previous weight
+        self.model.previous = temp_weight
