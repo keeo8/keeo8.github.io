@@ -3,10 +3,11 @@
     "listing": "/index.html",
     "items": [
       "/posts/logistic-reg-post/index.html",
-      "/posts/svm_breakdown/final_proj.html",
+      "/posts/svm_breakdown/index.html",
       "/posts/final-project-post/final_project.html",
       "/posts/music-blog-post/index.html",
       "/posts/decision-making-blog-post/index.html",
+      "/posts/phishing-blog-post/index.html",
       "/posts/WiDs-blog-post/index.html",
       "/posts/perceptron-post/index.html",
       "/posts/replication-blog-post/index.html",

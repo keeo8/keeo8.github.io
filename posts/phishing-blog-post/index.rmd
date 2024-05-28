@@ -1,0 +1,226 @@
+---
+title: "Test analysis of Phishing and Non-phishing emails"
+author: "Manuel Fors"
+date: '2024-04-24'
+categories: [R]
+output: 
+  html_document: default
+---
+
+# What are we doing?
+For this dataset, I want to look at a dataset of phishing and non-phishing emails. 
+I want to be able to determine when whether or not an email is a phishing email.
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
+```
+
+## Loading in libraries 
+Lets load some intial libraries earlier on so that our code below runs smoothly
+```{r}
+library(tidyverse)
+library(tidytext)
+library(ggplot2) 
+set.seed(1)
+```
+
+## Separating our data 
+This data is relatively large with about 18k rows and later on when we perform our *pivot_wider()*, we can't have too many 
+rows, otherwise our function will crash. I also want an even number of phishing and safe emails, so I am going to randomly sample 500 from each.
+
+```{r}
+emails <- read_csv('databases/Phishing_Email.csv')
+colnames(emails) <- c("Id", "Email_Text", "Type")
+
+phishing_emails <- emails |> 
+    filter(Type == "Phishing Email") %>%
+    sample_n(size = 500, replace = FALSE)
+
+safe_emails <- emails |> 
+    filter(Type == "Safe Email") %>% 
+    sample_n(size = 500, replace = FALSE)
+
+sampled_emails <- bind_rows(phishing_emails, safe_emails)
+```
+
+## Let's tokenize our data 
+Thankfully, our data has already been separated into clean columns, so all that we need to do is use the unnest_tokens function
+to create a token from each of our
+```{r}
+email_words <- sampled_emails |>
+    unnest_tokens(input = "Email_Text",
+                output = "Word")
+
+
+email_words$Id <- as.numeric(email_words$Id)
+```
+
+Lets make our feature matrix *fm1*. We also want to keep track of the Id and Type so we can identify a given email and know its type.
+```{r}
+fm1 <- email_words |> 
+    filter(!(Word %in% stop_words$word)) |>
+    pivot_wider(id_cols = c(Id, Type),
+                names_from = "Word", 
+                values_from = "Word",
+                values_fn = length,
+                values_fill = 0)
+
+```
+
+## Lets cluster with hclust
+In order to explore our data a bit more, I want to use hclust in order to understand how our emails are grouped. 
+
+```{r}
+hc1 <- hclust(fm1 |>
+                select(-c(Id, Type)) |>
+                dist())
+```
+
+I also want to label this diagram with the Id's so that I can later remove outliers before we run rf_caret
+```{r}
+library(dendextend)
+hc1 |> 
+    plot(label = fm1$Id)
+```
+
+There is a huge outlier ID 8074, which I will inspect below.
+```{r}
+email_words |> 
+    filter(Id == 8074) |>
+    count(Word) |>
+    arrange(-n)
+```
+Interestingly, the character ï which appears 947 times! This is also a phishing email, which is consistent with
+my previous notion of spam emails which consists of copious amounts of the same character. 
+
+## Lets run some analysis with pca 
+With pca, my hope is to see specific words or phrases that point to significant trends in our corpora. 
+
+```{r}
+pca1 <- prcomp(fm1 |> select(-c(Id, Type)))
+```
+
+```{r}
+pca1$rotation[,1] |>
+    sort(decreasing = TRUE) %>%
+    .[1:5]
+
+email_words |>
+    filter(Word == "ï") |>
+    count(Id, Type)
+
+#Email ID 8074
+
+```
+As our hclust proved before, Phishing Email 8074 is overwhelmingly contributing to the number of 
+ï in our dataset and pca is backing this up by using it as a major predictor in whether or not an email is 
+a Phishing email. We can also see many other 
+
+We can continue exploring more of our pca1, 
+
+```{r}
+pca1$rotation[,2] |>
+    sort(decreasing = FALSE) %>%
+    .[1:5]
+
+email_words |> 
+    filter(Word == "enron") |>
+    count(Id, Type, Word) |>
+    arrange(-n)
+
+email_words |> 
+    filter(Word == "29") |>
+    count(Id, Type, Word) |>
+    arrange(-n)
+
+# Email ID 17316
+
+pca1$rotation[,3] |>
+    sort(decreasing = TRUE) %>%
+    .[1:5]
+
+email_words |> 
+    filter(Word == "ect") |>
+    count(Id, Type, Word) |>
+    arrange(-n)
+
+#Email ID 12526
+
+```
+Through this pca investigation, I found two more strong candidates for outliers: Email 17316 and 12526.
+Let's remove those outliers, and clean up our feature matrix. Our *fm1* is quite large, so we must also remove columns of lesser importance. 
+In this case, I chose to remove columns that had less than 10 mentions. Thus cut down a substantial amount of columns. 
+```{r}
+library(MASS) 
+outlier_rows <- c(8074, 17316, 12526)
+fm1_no_outliers <- fm1[!(fm1$Id %in% outlier_rows),]
+
+numeric_columns <- fm1_no_outliers[, !names(fm1_no_outliers) %in% c("Id", "Type")]
+word_count_col <- colSums(numeric_columns) 
+columns_to_keep <- which(word_count_col >= 10)
+col_cleaned_fm1 <- fm1_no_outliers[, columns_to_keep]
+
+```
+
+And then lets get rid of all rows that no longer have anything in them.
+```{r}
+row_sums <- rowSums(col_cleaned_fm1[, !names(col_cleaned_fm1) %in% c("Id", "Type")]) # nolint
+non_zero_rows <- row_sums != 0
+full_cleaned_fm1 <- col_cleaned_fm1[non_zero_rows, ]
+```
+
+## Supervised Learning with ranger randomForest 
+With our cleaned *fm1* we now can run a tuned supervised learning algorithm in order to predict whether an email 
+is a Phishing Email or Safe Email.
+```{r}
+rf_caret <- train(Type ~ .-Id,
+                data = full_cleaned_fm1 |>
+                    na.omit(),
+                method = "ranger",
+                importance = "impurity")
+```
+Wow, that took a long time to run! On my machine this took 22 minutes to run and took a lot of ram. 
+Now that we have our model, we can look at the top 30 most important words.
+
+```{r}
+importance_scores <- varImp(rf_caret)
+```
+
+
+From our top 30 words, I picked out variables from the top 30 most important variables for safe emails
+
+```{r}
+top_safe_words <- c("university", "mailman", "planning", "research", "pm", "forwarded")
+email_words |>
+    count(Type, Word) |>
+    filter(Word %in% top_safe_words)|>
+    arrange(-n)
+```
+
+From our top 30 words, I picked out variables from the top 30 most important variables for phishing emails. 
+I also added money as I had a hunch that it was more popular with phishing emails, even though it is not listed in the top 30 
+by *rf_caret*.
+```{r}
+top_phish_words <- c("guaranteed", "viagra", "free", "online", "remove", "money")
+email_words |>
+    count(Type, Word) |>
+    filter(Word %in% top_phish_words) |>
+    arrange(Type != "Phishing Email", desc(n))
+```
+## Plotting 
+Finally, we can plot these importances in a simple plot showing our top most important variables for predicting whether or not 
+an email is phishing.
+```{r}
+plot(importance_scores, top = 30)
+```
+
+## Conclusion
+From these corpora, two distinct classes emerge. 
+
+Our Phishing Email dataset seems intent on "selling" or "offering" a product to the given email recipient.
+This corpus uses words like "free", "guaranteed", and "viagra" to high degree. From those examples, we can see Phishing emails are attempting to have you "buy into" 
+an idea.  From our PCA Analysis and Clustering Analysis, we also see patterns of heavy use of non-english characters, and repetition of characters. 
+
+Our Safe Email dataset seems more intent on sharing of information. There is a lot of talk about elements of communication such as "forwarding", "mailman" and "pm" (which could be the time or the messaging abbreviation)
+From our PCA Analysis and Clustering Analysis, the words in these datasets are a bit "plainer" to be frank. They seem to demand less urgency and attention than 
+the Phishing Emails. 
