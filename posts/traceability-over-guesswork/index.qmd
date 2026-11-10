@@ -1,0 +1,157 @@
+---
+title: "Traceability over Guesswork: Building a Conservative Data-Quality Pipeline"
+author: "Manuel Fors"
+date: "2026-11-10"
+categories: [Python, Data Quality, ETL, Data Engineering]
+description: "A look at how I built a data pipeline that preserves provenance, normalizes messy values conservatively, and routes uncertainty back for review instead of pretending certainty where it does not exist."
+---
+
+Most real-world data problems are not glamorous. They are not about building a perfect model in one clean pass. They are about taking a messy, inconsistent stream of inputs and making them reliable enough to trust.
+
+That is the project I have been working on. The goal is not to invent a perfect dataset from thin air. The goal is to preserve the original evidence, make the transformations reproducible, and push ambiguous cases into review instead of silently converting them into something that looks more certain than it actually is.
+
+That distinction matters a lot.
+
+When source data comes from raw JSON, HTML blocks, broker exports, and inconsistent field naming, there is a temptation to normalize everything aggressively. But once you throw away the original values, you lose the ability to explain why a field was changed, or whether that change was even justified. In an operational data pipeline, that is a dangerous tradeoff.
+
+The more useful approach is conservative automation: preserve the raw input, keep a hash of what arrived, record the version of the parser or normalizer that acted on it, and emit a review record whenever the system sees something ambiguous or unsupported.
+
+## Parsing raw input without trusting it
+
+One of the first steps in this effort was building an offline parsing path for explicitly selected HTML-bearing JSON fields. In practice, this means the system can take a field that contains embedded HTML or nested formatting, parse it safely without executing anything, and keep the exact original payload intact for later audit.
+
+The key idea is that parsing and interpretation are deliberately separate concerns. A parser extracts text from a field. It does not decide what the value means in a business sense. That distinction is important because a raw field can look messy for a reason: because it is a scraped listing, a templated description, or some broker-specific formatting that is not yet standardized.
+
+The result is a raw deal abstraction that retains fields such as:
+
+- `raw_title`
+- `raw_price`
+- `raw_revenue`
+- `raw_ebitda`
+- `raw_location`
+- `raw_description`
+- `source_url`
+
+This is exactly the sort of structure that makes downstream work easier. It gives us a record of what came in, what was extracted, and what still requires review. It also gives us a straightforward place to include parser versioning and batch-level reconciliation information.
+
+A project like this is only as credible as its evidence. So the pipeline records:
+
+- the original payload
+- a SHA-256 hash of the source row
+- row indexes and issue metadata
+- parser versions
+- counts of parsed versus review rows
+
+That matters because a system that cannot explain itself is not especially useful in production. It may appear to work, but it will fail in exactly the situations where people need the most trust: auditability, debugging, and review.
+
+## Financial values should be exact, or they should be flagged
+
+The second major piece was financial normalization. This was a natural extension of the same principle: if a value is not trustworthy enough to normalize with confidence, do not silently coerce it.
+
+The work here introduced reusable normalization routines for asking price, revenue, and EBITDA. The goal was not to force everything into a single clean schema. The goal was to convert values to exact whole-USD integer values when supported, while preserving uncertainty when the source data is incomplete, ambiguous, or not safely interpretable.
+
+In other words, the system can say:
+
+- this number is valid and normalized
+- this number is missing
+- this number is ambiguous or unsupported
+- this number is outside a safe interpretation range
+- this number appears to have lost precision or used a nonstandard scale
+
+This is a much better default than guessing.
+
+A practical example is the common case where a source value contains a range, an unusual currency symbol, or a formatting oddity. Without safeguards, a pipeline might quietly assume one interpretation and proceed. That can create downstream errors that are difficult to detect. With a review-first model, the pipeline instead records the uncertainty and routes the row for human review.
+
+The implementation uses decimal arithmetic and retains the original inputs, extracted fields, hashes, and row-level metadata so that a record can be replayed and audited later. That matters because once a financial value is normalized, you want to be able to explain exactly how and why it changed.
+
+## Why this matters more than the raw technical win
+
+The lesson is that a lot of engineering effort in data pipelines is really about building trust.
+
+Trust in a pipeline comes from a few things:
+
+- reproducibility
+- clear provenance
+- explicit handling of edge cases
+- reviewability of unresolved values
+- versioning across parser and normalizer changes
+
+That is what separates a brittle pipeline from a resilient one.
+
+If the system cannot say where a value came from, what was done to it, and why an edge case was rejected or escalated, then the system is only pretending to be reliable.
+
+By contrast, when you retain the original payload and the transformation trail, the system becomes explainable. You can debug the exact row that failed. You can replay the transformation. You can review the edge cases without re-running the whole ingestion stack from scratch.
+
+That is a practical engineering principle, not just a philosophical one.
+
+## Identity and validation: the same philosophy, different problem
+
+The later work in this effort extended the same theme to identity-resolution and structural data validation. A key example was the phone-normalization fix: numbers were being normalized through the US/E.164 path, but invalid NANP values were slipping through when the area code or exchange began with 0 or 1.
+
+The fix was modest in code size but important in operational value. It did not rewrite invalid inputs into a new valid number. Instead, it kept the raw fallback path and rejected the invalid shape before normalization. That is exactly the right behavior for quality-sensitive systems: fail conservatively, do not manufacture confidence.
+
+The same logic applies across identity and duplicate-resolution tasks. There are already existing capabilities for:
+
+- resolver logic
+- identifier normalization
+- employment and domain matching
+- duplicate review
+- deterministic entity matching
+
+The challenge is not simply to add more matching logic. It is to understand where the evidence is strong enough to act automatically and where it is not. When the evidence is weak, uncertainty should move to review, not be turned into a confident claim.
+
+That is where the broader engineering theme really shows up: traceability with conservative automation.
+
+## A disciplined way to handle uncertainty
+
+A lot of data work tries to infer certainty prematurely. The pipeline makes assumptions, collapses uncertainty, and moves on. The downside is that a hidden assumption becomes a silent policy decision.
+
+The more disciplined approach is this:
+
+1. preserve the original value
+2. extract and normalize only what is clearly supported
+3. log the version, input hash, and transaction metadata
+4. route ambiguous inputs to review
+5. keep the replay trail explicit
+
+This creates a system that is easier to audit, easier to trust, and more useful in practice.
+
+It also makes the engineering work more honest. A lot of projects talk about data quality, but few spend enough time on provenance and reviewability. Once those become part of the formal pipeline, the benefits are obvious: faster debugging, clearer governance, and safer automation.
+
+## What was actually verified
+
+It is worth saying explicitly that this was a bounded, evidence-driven project. The offline HTML parser work was validated with a synthetic batch that reconciled six rows into three parsed rows and three review rows. The finance normalization work included a seven-row dry run that produced two normalized rows and five review rows. The phone validation fix was covered by six focused normalization tests, and the project also included a regression selection of 209 offline parser/financial checks plus 561 business and entity-resolution tests in a PostgreSQL-backed pass.
+
+These numbers matter because they reveal an important truth: the work is not a claim that every ingestion path is complete or production-ready. It is a strong validation of the local, offline, deterministic components of the pipeline, with clear boundaries on what remains open. That is exactly the right posture for a system dealing with messy inputs and uncertain values.
+
+## Final takeaway
+
+The work summarized here is not about building a perfect, one-shot data product. It is about creating the foundations for one: a data pipeline that is explicit about what it knows, what it does not know, and where human review is needed.
+
+The most important lesson is simple:
+
+If your pipeline cannot preserve the source evidence and explain a transformation, then it is not yet ready to be trusted.
+
+This is where the real value sits. Not in aggressive normalization, but in careful normalization; not in hiding uncertainty, but in making uncertainty visible and reviewable.
+
+That is a much stronger foundation for downstream analysis, and it is a much more robust way to work with real-world data.
+
+```python
+# Example of the governing principle
+raw_value = "$1,250,000"
+parsed_value = "1250000"
+
+# Preserve evidence before transformation
+source_hash = "sha256:abc123..."
+
+# Normalize only if safe
+if parsed_value.isdigit():
+    normalized = 1250000
+else:
+    normalized = None
+    review_reason = "unsupported_format"
+```
+
+The broader project is not yet a full production ingestion stack. It is a carefully bounded, evidence-backed set of capabilities. But that is exactly the right place to start when the data is messy and the cost of wrong automation is high.
+
+The lesson is not to avoid automation. It is to automate only in ways that leave a clear trail behind.
