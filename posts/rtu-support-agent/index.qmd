@@ -1,0 +1,252 @@
+---
+title: "Building RTU: An AI Helpdesk That Turns Complaints Into Engineering Tickets"
+description: "A prototype support pipeline that converts customer complaints into structured, persistent, developer-ready tickets."
+author: "Manuel Fors"
+date: "2026-09-22"
+toc: true
+categories:
+  - Flask
+  - SQLite
+---
+
+Customer complaints often arrive as unstructured descriptions: something is broken, a feature is confusing, or an action produces an unexpected result. A representative might listen to this, offer an apology, and then move that to a support agent. That person is going to gather some more data and try to understand what's wrong. The problem is big, so when it is recorded in a CRM there might be an instant trigger via. something like Zapier and boom now you have that issue put as a ticket in Jira. 
+Before a developer can address the issue, someone has to interpret the complaint, extract the useful details, decide how urgent it is, and create a consistent ticket. THIS TAKES TIME. 
+
+What if we had a way to streamline this? 
+
+RTU is a prototype AI support agent designed to automate that intake process. A customer submits a complaint through a website, RTU converts it into a structured ticket, and the ticket enters a queue that another AI agent or human developer can work from.
+
+The central design principle is simple: **the ticket system is the source of truth**. AI agents do not pass loosely structured conversations among themselves. They read and write records attached to the same persistent ticket.
+Keep in mind, the flow that follows in this proof-of-concept is fully AI. At any point, a real dev, real QA dev, etc. could replace these agents or work in conjunction with them. 
+
+## The very large elephant in the room 
+How do you keep a customer from changing something they aren't supposed to? After all, letting the customer access the code with their own confusing problems. Is that such a good idea? 
+You could tell yourself "hey, maybe just having the customer accessing this is too much. Let's restrict it just to the support agent" 
+Except, support agents aren't technical. While they understand the product much more than the customer, I don't think they have that much more understanding of how to change these problems, unless you are hiring technical support agents. 
+
+I say we can take the leap. 
+
+### AI Governance
+A customer complaint is inherently untrusted data. Restricting code access to the support agent is okay, but a customer could also still embed malicious instructions and attempt to manipulate the agent.
+If we remove the support intermediary, and allow customers to interact more directly with the development system, then the permissions must be enforced outside the AI model. Customers can chat, describe problems, answer follow-up questions, 
+and provide evidence, but must not be given any access to private information, modify production code, deploy changes, or redefine the AI agent itself. With the developer agent, this should work in an isolated environment wiith 
+[least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) credentials, only approved tools, restricted repo access, etc. Proposed changes are placed on temporary branches with humans or a verificatoin system reviewing this
+before deployment. The goal is NOT TO TRUST AI. AI should not be trusted to notice whenver a customer has "gone bonkers"; it's to design a surrounding system so that no funny business can happen even when the model misunderstands or follows
+a malicious request.
+Great, good to get that out of the way. 
+
+
+
+
+## The Problem
+
+A raw customer complaint might look like this:
+
+> Every time I click Export on the analytics page, it spins for about a minute and then gives me an error.
+
+This contains valuable information, but it is not yet an engineering ticket. A developer would benefit from a title, summary, affected product area, priority, reproduction steps, expected behavior, actual behavior, and workflow status.
+
+For example, RTU can turn that complaint into a record like the one below. The fields represent an interpretation of the report, not a verified diagnosis:
+
+```json
+{
+  "id": "RTU-261110-A42F1",
+  "title": "Analytics export fails",
+  "category": "bug",
+  "product_area": "Analytics",
+  "priority": "medium",
+  "summary": "Exporting analytics does not complete and eventually returns an error.",
+  "reproduction_steps": [
+    "Open the analytics page",
+    "Click Export",
+    "Wait for the export to complete"
+  ],
+  "expected_behavior": "The export file downloads successfully.",
+  "actual_behavior": "The export hangs and eventually displays an error.",
+  "status": "ready_for_dev"
+}
+```
+
+The original complaint is preserved alongside this interpretation. The AI-generated structure helps route and process the issue, but it does not replace the customer's own words.
+
+## System Architecture
+
+The broader system is designed as a multi-agent pipeline:
+
+```text
+Customer
+   ↓
+RTU support agent
+   ↓
+Ticket database
+   ↓
+Developer agent or human developer
+   ↓
+QA and verification
+   ↓
+Resolution record
+   ↓
+Customer notification
+```
+
+Each participant has a limited responsibility:
+
+- **RTU support agent:** receives, summarizes, categorizes, and routes complaints.
+- **Ticket database:** stores the canonical ticket and its history.
+- **Developer agent:** diagnoses the problem and records its technical work.
+- **QA agent:** independently verifies the proposed resolution.
+- **Notification layer:** translates the internal resolution into a customer-facing update.
+
+The intended separation keeps intake, code changes, verification, and customer communication in distinct roles. Enforcing those boundaries requires permissions and review controls as the pipeline grows.
+
+## The First Working Prototype
+
+The initial RTU prototype uses Flask for the web application and SQLite for local persistence. It includes:
+
+- A customer complaint form
+- Automated ticket summarization and classification
+- Priority and category selection
+- Extraction of possible reproduction steps
+- A queue of recent tickets
+- Individual ticket-detail pages
+- Status updates and work notes
+- An append-only activity history
+- A JSON endpoint for developer-agent integration
+
+The interface is intentionally divided into two working surfaces. The intake form lets a support operator or customer submit a complaint, while the live queue makes the resulting tickets immediately visible.
+
+## Triage With a Safe Fallback
+
+RTU supports two triage modes.
+
+When an API key is configured, the complaint is sent to a language model with a constrained JSON schema. The model is instructed to remain factual, avoid inventing technical causes, and mark the ticket as needing more information when the complaint lacks sufficient reproduction details.
+
+When a model is unavailable, a deterministic local classifier keeps the application usable. The fallback looks for signals related to areas such as billing, account access, feature requests, outages, data loss, and common failures. It then produces a basic summary, category, priority, and workflow status.
+
+This fallback is not meant to match the judgment of a capable language model. Its purpose is operational resilience: ticket intake should not stop merely because an external model request fails.
+
+## Ticket States
+
+The prototype uses a small but extensible state machine:
+
+```text
+new
+  ├── needs_customer_info
+  └── ready_for_dev
+          ↓
+      in_progress
+          ↓
+        testing
+          ↓
+       resolved
+          ↓
+        closed
+```
+
+A sufficiently detailed complaint can enter `ready_for_dev`. A vague complaint enters `needs_customer_info`, allowing RTU to request clarification before consuming developer time.
+
+Future versions could also include states such as `blocked`, `duplicate`, `rejected`, or `awaiting_human_review`.
+
+## Persistence and Auditability
+
+The prototype stores two main types of records:
+
+1. **Tickets**, which contain the current structured state of each complaint.
+2. **Ticket events**, which record what happened, who performed the action, and when it occurred.
+
+As the full pipeline is implemented, its event history could contain entries like these. Development, QA, and notification events below illustrate the planned workflow:
+
+```text
+ticket_created       RTU support agent
+status_changed       RTU support agent
+work_started         developer agent
+code_changed         developer agent
+tests_passed         QA agent
+ticket_resolved      system
+customer_notified    RTU support agent
+```
+
+This audit trail matters when AI agents are allowed to participate in software work. A final status of “fixed” is not enough. The system should retain the diagnosis, changes, tests, approvals, and notifications that led to that conclusion.
+
+## Connecting a Developer Agent
+
+The prototype exposes a read-only endpoint:
+
+```http
+GET /api/tickets/ready
+```
+
+It returns tickets currently marked `ready_for_dev`, providing a read-only integration point for a developer agent. Claiming tickets and writing structured work records back to the system are planned additions; the read-only endpoint does not provide those operations.
+
+A future work record could include:
+
+```json
+{
+  "ticket_id": "RTU-261110-A42F1",
+  "agent": "developer-agent-v1",
+  "root_cause": "The export worker timed out on large result sets.",
+  "changes": [
+    "Added pagination to the export worker",
+    "Added a regression test for large exports"
+  ],
+  "files_modified": [
+    "services/export_worker.py",
+    "tests/test_export.py"
+  ],
+  "tests": {
+    "passed": 18,
+    "failed": 0
+  }
+}
+```
+
+The important point is that the developer agent does not create a disconnected report. Its work becomes part of the existing ticket record.
+
+## What the Prototype Demonstrates
+
+The current application establishes the core intake and tracking loop:
+
+1. A customer submits a complaint.
+2. RTU interprets the complaint.
+3. A structured ticket is saved.
+4. The ticket enters the appropriate queue.
+5. A developer or operator updates its status and adds work notes.
+6. Every important action remains attached to the ticket history.
+
+This is deliberately smaller than a fully autonomous support and development platform. It avoids automated code deployment, automatic customer email, and AI self-verification for now. Those features introduce additional security and reliability concerns and should be added only after the ticket lifecycle is dependable.
+
+
+## Next Steps
+
+The most useful next additions would be:
+
+### 1. Developer-agent claiming
+
+Add authenticated endpoints that let a developer agent claim a ticket, create a work session, and prevent multiple agents from unknowingly working on the same issue.
+
+### 2. Structured developer work records
+
+Require agents to report the root cause, files changed, tests run, failures encountered, and confidence level rather than submitting a simple “fixed” message.
+
+### 3. Independent QA
+
+Introduce a separate verification agent that compares the proposed fix with the original complaint and attempts to reproduce the issue before and after the change.
+
+### 4. Customer clarification
+
+Allow RTU to ask targeted follow-up questions when information is missing, then append the customer's answers to the same ticket.
+
+### 5. Notifications
+
+Send customers a small number of meaningful updates: complaint received, investigation started, fix under testing, and issue resolved.
+
+### 6. Production safeguards
+
+Before allowing autonomous repository changes, add authentication, permissions, rate limits, secret management, human approval gates, isolated execution environments, and deployment controls.
+
+## Why the ticket record comes first
+
+RTU begins with a narrow task: turning an unstructured complaint into a useful engineering ticket. That intake step creates the foundation for a larger system in which specialized AI agents can triage, develop, verify, and communicate without losing the history of the original customer problem.
+
+The prototype's most important feature is therefore not its classifier or interface. It is the persistent ticket record that coordinates every participant. Once that record is reliable, more capable agents can be added around it without giving up traceability or control.
+

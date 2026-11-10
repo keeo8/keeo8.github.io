@@ -17,6 +17,6 @@ about:
 This blog is to showcase the work I do in class as well as my thought process behind coding.
 
 ## About me
-I am a senior Computer Science major at Middlebury College. I have experience in 
+I am a Computer Scientist in the wild. I have experience in 
 Python, C, OCaml, and Java, as well as the domain-specific language "NetLogo". 
 I also like linguistics and art! Enjoy reading my blog and thank you for stopping by!
