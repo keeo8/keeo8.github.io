@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: cat-coding.jpg
+image: img/zuki-cat.png
 about:
   template: jolla
   links:
@@ -14,7 +14,7 @@ about:
 ---
 
 ## About this blog 
-This blog is to showcase the work I do in class as well as my thought process behind coding.
+This blog is to showcase the work as my thought process behind coding.
 
 ## About me
 I am a Computer Scientist in the wild. I have experience in 
